@@ -1,0 +1,28 @@
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head><script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
+
+</head>
+<body>
+	<div th:fragment="quantity_control(qtyValue,productId)">
+	
+	<nav>
+	<ul class="pagination pagination-sm justify-content-middle">
+		<li class="page-item">
+			<a class="page-link form-control form-control-sm minusButton" href=""  th:pid="${productId}"><b>-</b></a>
+		</li>
+		<li class="page-item">
+				<input type="text" th:value="${qtyValue}" class="form-control  form-control-sm text-center" 
+				onkeydown="return false;" style="max-width:30px"
+				th:id="'quantity'+${productId} "
+				/>
+		</li>
+		<li class="page-item">
+			<a class="page-link form-control form-control-sm plusButton" href="" th:pid="${productId}"><b>+</b></a>
+		</li>
+	</ul>
+	</nav>
+	</div> 
+
+</body>
+</html>

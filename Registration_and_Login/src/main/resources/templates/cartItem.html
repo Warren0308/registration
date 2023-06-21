@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+	
+	<title>HOME</title>
+	
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+	
+	<!-- Template Main CSS File -->
+	<link href="assets/css/style.css" rel="stylesheet">
+		
+		 <!-- Favicons -->
+	<link href="assets/img/favicon.png" rel="icon">
+	<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+	
+	  <!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	
+	<!-- Vendor CSS Files -->
+  	<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  	<link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  	<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  	<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  	<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  	<link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  	<link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+ 	<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+	<script type="text/javascript" src="webjars/jquery/3.2.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".minusButton").on("click",function(evt){
+				evt.preventDefault();
+				productId = $(this).attr("pid");
+				qtyInput = $("#quantity" + productId);
+		
+				newQty = parseInt(qtyInput.val())-1;
+				if(newQty>0) qtyInput.val(newQty);
+			});
+	
+			$(".plusButton").on("click",function(evt){
+				evt.preventDefault();
+				productId = $(this).attr("pid");
+				qtyInput = $("#quantity" + productId);
+		
+				newQty = parseInt(qtyInput.val())+1;
+				if(newQty<10) qtyInput.val(newQty);
+			});
+		});
+	</script>
+</head>
+<body>
+	<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+	<script>
+	AOS.init();
+	</script>
+	<div th:replace="@{/navbar} ::navbar"></div>
+	<header id="header" class="sticky-top d-flex align-items-center">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-lg-between " >
+	<h3 class="display-6"><a style="color:white;">Your Shipping Cart:</a></h3>
+           <nav id="navbar" class="navbar order-last order-lg-0">
+        <ul>
+          <li><a class="nav-link scrollto active" th:href="@{/}">Home</a></li>
+          <li><a class="nav-link scrollto" href="#about">About</a></li>
+          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+      <a th:href="@{/demo}" class="book-a-table-btn scrollto d-none d-lg-flex">Book a table</a>
+    </div>
+  </header>
+  <!-- End Header -->
+
+	 <!-- =======Cart Section ======= -->
+    <section id="menu" class="menu ">
+	<div class="row m-1">
+	<div class="col-sm-8">
+	<th:block th:each="item, status:${cartItems}">
+	<div class="row border rounded" data-aos="fade-up" data-aos-delay="200" th:with="product = ${item.food}">
+		<div class="col-1">
+			<div>[[${status.count}]]</div>
+			<div><a class="bi bi-trash icon-dark" th:href="@{/}"></a></div>
+		</div>
+		<div class="col-2">
+			 <img th:src="@{${item.food.url}}" class="img-fluid menu-img" alt="">
+		</div>
+		<div class="col-3">
+			<div>
+				<a>
+					<b> [[${product.name}]]</b>
+				</a>
+			</div>
+			<div>
+				<a th:replace="@{/quantityControl} :: quantity_control(${item.quantity},${item.food.id})">Quantity</a>
+				<a>
+					<span> x </span>
+					<span class="h6"> RM </span>
+					<span>[[${product.price}]]</span>
+					<span></span>
+				</a>
+			</div>
+			<div>
+				<span>=</span>
+				<span class="h4">[Subtotal] </span>
+			</div>
+		</div>
+	</div>
+	<div class="row m-1">&nbsp;</div>
+	</th:block>
+	</div>
+	<div class="col-sm-4" th:unless=${#lists.isEmpty(cartItems)}>
+		<div>
+			<span class="h3">Estimated Total:</span>
+		</div>
+		<div class="mt-2">
+			<span class="h2">[Total Amount]</span>
+		</div>
+		<div class="mt-2">
+			<button class="btn btn-danger p-3 mt-2">Check Out</button>
+		</div>
+	</div>
+	<div th:if="${#lists.isEmpty(cartItems)}">
+		<h3>You have not chosen any products yet.</h3>
+	</div>
+</div>
+</section><!-- End Cart Section -->
+<script th:src="@{/js/quantity_control.js}"></script>
+</body>
+</html>
+

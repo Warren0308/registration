@@ -1,0 +1,73 @@
+	<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+	<meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+	
+	<title>HOME</title>
+	
+	<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+	
+	<!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+	
+	 <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+	
+	<!-- Vendor CSS Files -->
+  <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+  <link href="assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+</head>
+<body>
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script> -->
+	<span th:switch="${text}">
+		<span th:case="1" th:include="@{/navbar2} ::navbar2"></span>
+		<span th:case="0" th:include="@{/navbar} ::navbar"></span></span>
+
+	<div class="bg-white">
+	<div class="container text-center">
+		<div>
+			<h1>Account Details</h1>
+		</div>
+		<div>
+			<table class="table table-striped table-borded">
+				<thead class="thead-dark">
+					<tr>
+						<th>User ID</th>
+						<th>E-mail</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Roles</th>
+						
+						<th sec:authorize="hasAnyAuthority('Admin','User')">View</th>
+					</tr>
+				</thead>
+					<tbody class="table-white">
+						<tr th:each="user:${listUsers}">
+							<td th:text="${user.id}">User ID</td>
+							<td th:text="${user.email}">E-mail</td>
+							<td th:text="${user.firstName}">First Name</td>
+							<td th:text="${user.lastName}">Last Name</td>
+							<td th:text="${user.roles}">Roles</td>
+							<td sec:authorize="hasAnyAuthority('Admin','User')">
+								<a th:href="@{'/users/edit/'+${user.id}}"><i class="bi bi-view-list" style="color:black"></i></a>
+							</td>
+						</tr>
+					</tbody>
+			</table>
+		</div>
+	</div>
+	</div>
+</body>
+</html>
